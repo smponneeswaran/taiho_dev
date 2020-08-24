@@ -16,8 +16,8 @@ WITH included_subjects AS (SELECT studyid, siteid, usubjid FROM subject),
             "markinggroupname"::text AS querytype, 
             "name"::text AS querystatus, 
             "qryopendate"::date AS queryopeneddate, 
-            "qryresponsedate"::date AS queryresponsedate,
-            "qrycloseddate"::date AS querycloseddate,
+            nullif("qryresponsedate",'')::date AS queryresponsedate,
+           "qrycloseddate"::date AS querycloseddate,
             1::int as formseq,
             "log" as log_num
         FROM "tas120_202"."stream_query_detail"
