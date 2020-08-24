@@ -15,23 +15,23 @@ WITH included_subjects AS (
                         null::integer AS lbdy,
                         null::integer AS lbseq,
                         null::text AS lbtestcd,
-                        null::text AS lbtest,
-                        null::text AS lbcat,
+                        "AnalyteName"::text AS lbtest,
+                        "DataPageName"::text AS lbcat,
                         null::text AS lbscat,
                         null::text AS lbspec,
                         null::text AS lbmethod,
-                        null::text AS lborres,
+                        "AnalyteValue"::text AS lborres,
                         null::text AS lbstat,
                         null::text AS lbreasnd,
-                        null::numeric AS lbstnrlo,
-                        null::numeric AS lbstnrhi,
-                        null::text AS lborresu,
-                        null::numeric AS  lbstresn,
-                        null::text AS  lbstresu,
+                        "StdLow"::numeric AS lbstnrlo,
+                        "StdHigh"::numeric AS lbstnrhi,
+                        "LabUnits"::text AS lborresu,
+                        "StdValue"::numeric AS  lbstresn,
+                        "StdUnits"::text AS  lbstresu,
                         null::text AS  lbblfl,
                         null::text AS  lbnrind,
-                        null::text AS  lbornrhi,
-                        null::text AS  lbornrlo,
+                        "LabLow"::text AS  lbornrhi,
+                        "LabHigh"::text AS  lbornrlo,
                         null::text AS  lbstresc,
                         null::text AS  lbenint,
                         null::text AS  lbevlint,
@@ -43,10 +43,6 @@ WITH included_subjects AS (
                         null::numeric AS  lbuloq,
                         null::text AS  lbclsig,
                         null::time without time zone AS lbtm 
-						LEFT JOIN "astx030_01"."CHEM" chem on (lb1."studyid" = chem."project" AND lb1."siteid" = left(chem."SiteNumber",3) AND lb1."usubjid" = replace(chem."Subject",'ASTX030-01-','') AND lb1."visit" = chem."FolderName")
-  LEFT JOIN "astx030_01"."UAMICRO" uami on (lb1."studyid" = uami."project" AND lb1."siteid" = left(uami."SiteNumber",3) AND lb1."usubjid" = replace(uami."Subject",'ASTX030-01-','') AND lb1."visit" = uami."FolderName")
-						
-						
 						
 						
 						
@@ -95,4 +91,3 @@ SELECT
         /*KEY , now()::timestamp with time zone AS comprehend_update_time KEY*/
 FROM lb_data lb
 JOIN included_subjects s ON (lb.studyid = s.studyid AND lb.siteid = s.siteid AND lb.usubjid = s.usubjid)
-WHERE 1=2;
