@@ -4,19 +4,20 @@ Notes: Standard mapping to CCDM Study table
 */
 
 WITH study_data AS (
-                    SELECT  '1234'::text AS studyid,
-                            null::text AS studyname,
-                            null::text AS studydescription,
+							SELECT  'TAS120-201'::text AS studyid,
+                            'TAS120-201'::text AS studyname,
+                            'A Phase 2 Study of TAS-120 in Metastatic Breast Cancers Harboring Fibroblast Growth Factor Receptor (FGFR) Amplifications'::text AS studydescription,
                             null::text AS studystatus,
-                            null::text AS studyphASe,
+                            'Phase 2'::text AS studyphASe,
                             null::text AS studysponsor,
-                            null::text AS therapeuticarea,
+                            'Oncology'::text AS therapeuticarea,
                             null::text AS program,
                             null::text AS medicalindication,
                             null::date AS studystartdate,
                             null::date AS studycompletiondate,
                             null::date AS studystatusdate,
-                            null::boolean AS isarchived )
+                            null::boolean AS isarchived 
+					)
 
 SELECT 
         /*KEY s.studyid::text AS comprehendid, KEY*/
@@ -34,5 +35,4 @@ SELECT
         s.studystatusdate::date AS studystatusdate,
         s.isarchived::boolean AS isarchived 
         /*KEY , now()::timestamp with time zone AS comprehend_update_time KEY*/
-FROM study_data s
-WHERE 1=2;
+FROM study_data s;
