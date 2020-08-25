@@ -7,31 +7,37 @@ WITH included_subjects AS (
                 SELECT DISTINCT studyid, siteid, usubjid FROM subject ),
 
      lb_data AS (
-                SELECT  "project"::text AS studyid,
-                        "SiteNumber"::text AS siteid,
-                        "Subject"::text AS usubjid,
-                        "FolderName"::text AS visit,
-                        null::timestamp without time zone AS lbdtc,
+                SELECT  lb1."project"::text AS studyid,
+                        right(lb1."SiteNumber",3)::text AS siteid, 
+				 	    right(lb1."Subject",7)::text    AS usubjid,
+                        lb1."FolderName"::text AS visit,
+						CASE
+							WHEN lb1."DataPageName" like '%Chemistry%' THEN chem."LBDAT"
+							WHEN lb1."DataPageName" like '%Hematology% - CBC' THEN hem."LBDAT"
+							WHEN lb1."DataPageName" like '%Coagulation%' THEN coag."LBDAT"
+							WHEN lb1."DataPageName" like '%Urinalysis%' THEN urine."LBDAT"
+						END::timestamp without time zone AS lbdtc,
                         null::integer AS lbdy,
                         null::integer AS lbseq,
-                        null::text AS lbtestcd,
-                        "AnalyteName"::text AS lbtest,
-                        "DataPageName"::text AS lbcat,
+                        lb1."AnalyteName"::text AS lbtestcd,
+                        lb1."AnalyteName"::text AS lbtest,
+                        lb1."DataPageName"::text AS lbcat,
                         null::text AS lbscat,
                         null::text AS lbspec,
                         null::text AS lbmethod,
-                        "AnalyteValue"::text AS lborres,
+                       lb1."AnalyteValue"::text AS lborres,
                         null::text AS lbstat,
                         null::text AS lbreasnd,
-                        "StdLow"::numeric AS lbstnrlo,
-                        "StdHigh"::numeric AS lbstnrhi,
-                        "LabUnits"::text AS lborresu,
-                        "StdValue"::numeric AS  lbstresn,
-                        "StdUnits"::text AS  lbstresu,
+                        lb1."StdLow"::numeric AS lbstnrlo,
+                        lb1."StdHigh"::numeric AS lbstnrhi,
+                        lb1."LabUnits"::text AS lborresu,
+                        lb1."StdValue"::numeric AS  lbstresn,
+                        lb1."StdUnits"::text AS  lbstresu,
+						null::time without time zone AS lbtm, 
                         null::text AS  lbblfl,
                         null::text AS  lbnrind,
-                        "LabLow"::text AS  lbornrhi,
-                        "LabHigh"::text AS  lbornrlo,
+                        lb1."LabLow"::text AS  lbornrhi,
+                        lb1."LabHigh"::text AS  lbornrlo,
                         null::text AS  lbstresc,
                         null::text AS  lbenint,
                         null::text AS  lbevlint,
@@ -41,13 +47,14 @@ WITH included_subjects AS (
                         null::text AS  lbpos,
                         null::text AS  lbstint,
                         null::numeric AS  lbuloq,
-                        null::text AS  lbclsig,
-                        null::time without time zone AS lbtm 
-						
-						
-						
-						
-						)
+                        null::text AS  lbclsig
+			From        tas3681_101."NormLab" lb1
+			LEFT JOIN tas3681_101."CHEM" chem on (lb1."project" = chem."project" AND right(lb1."SiteNumber",3) = right(chem."SiteNumber",3) AND lb1."Subject" = chem."Subject" AND lb1."FolderName" = chem."FolderName")
+			LEFT JOIN tas3681_101."COAG" coag on (lb1."project" = coag."project" AND right(lb1."SiteNumber",3) = right(coag."SiteNumber",3) AND lb1."Subject" = coag."Subject" AND lb1."FolderName" = coag."FolderName")
+			LEFT JOIN tas3681_101."HEMA" hem on (lb1."project" = hem."project" AND right(lb1."SiteNumber",3) = right(hem."SiteNumber",3) AND lb1."Subject" = hem."Subject" AND lb1."FolderName" = hem."FolderName")
+			LEFT JOIN tas3681_101."URIN" urine  on (lb1."project" = urine."project" AND right(lb1."SiteNumber",3) = right(urine."SiteNumber",3) AND lb1."Subject" = urine."Subject" AND lb1."FolderName" = urine."FolderName")
+			
+                        )
 
 SELECT 
         /*KEY (lb.studyid || '~' || lb.siteid || '~' || lb.usubjid)::text AS comprehendid, KEY*/
@@ -90,8 +97,4 @@ SELECT
         /*KEY , (lb.studyid || '~' || lb.siteid || '~' || lb.usubjid || '~' || lb.lbseq)::text  AS objectuniquekey KEY*/
         /*KEY , now()::timestamp with time zone AS comprehend_update_time KEY*/
 FROM lb_data lb
-<<<<<<< HEAD
 JOIN included_subjects s ON (lb.studyid = s.studyid AND lb.siteid = s.siteid AND lb.usubjid = s.usubjid);
-=======
-JOIN included_subjects s ON (lb.studyid = s.studyid AND lb.siteid = s.siteid AND lb.usubjid = s.usubjid)
->>>>>>> 36d2a2a32dca045a72ac4ab1a973a347f1566eb0
