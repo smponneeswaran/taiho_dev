@@ -41,6 +41,5 @@ SELECT
         /*KEY ,(dm.studyid || '~' || dm.siteid || '~' || dm.usubjid )::text  AS objectuniquekey KEY*/
         /*KEY , now()::timestamp without time zone AS comprehend_update_time KEY*/
 FROM dm_data dm
-JOIN included_subjects s ON (dm.studyid = s.studyid AND dm.siteid = s.siteid AND dm.usubjid = s.usubjid)
-;
+JOIN included_subjects s ON (dm.studyid = s.studyid AND dm.siteid = s.siteid AND dm.usubjid = s.usubjid);
 

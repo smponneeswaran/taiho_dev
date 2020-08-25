@@ -21,4 +21,4 @@ SELECT /*KEY sc.studyid::text AS comprehendid, KEY*/
         /*KEY , (sc.studyid || '~' || sc.croid)::text::text AS objectuniquekey KEY*/
         /*KEY , now()::timestamp with time zone AS comprehend_update_time KEY*/
 FROM studycro_data sc
-JOIN included_studies st ON (sc.studyid = st.studyid)
+JOIN included_studies st ON (sc.studyid = st.studyid);

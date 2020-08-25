@@ -48,4 +48,4 @@ SELECT
         /*KEY , (fd.studyid || '~' || fd.siteid || '~' || fd.usubjid || '~' || '~' || fd.visit || '~' || fd.formid || '~' || fd.formseq || '~' || fd.fieldid || '~' || fd.fieldseq || '~' || fd.log_num)::text  AS objectuniquekey KEY*/
         /*KEY , now()::timestamp with time zone AS comprehend_update_time KEY*/
 FROM fielddata_data fd
-JOIN included_subjects s ON (fd.studyid = s.studyid AND fd.siteid = s.siteid AND fd.usubjid = s.usubjid)
+JOIN included_subjects s ON (fd.studyid = s.studyid AND fd.siteid = s.siteid AND fd.usubjid = s.usubjid);

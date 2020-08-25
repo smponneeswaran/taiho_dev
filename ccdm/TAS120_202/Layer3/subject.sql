@@ -29,4 +29,4 @@ SELECT
         /*KEY , (sd.studyid || '~' || sd.siteid || '~' || sd.usubjid)::text AS objectuniquekey KEY*/
         /*KEY , now()::timestamp with time zone AS comprehend_update_time KEY*/
 FROM subject_data sd
-JOIN included_sites si ON (si.studyid = sd.studyid AND si.siteid = sd.siteid)
+JOIN included_sites si ON (si.studyid = sd.studyid AND si.siteid = sd.siteid);

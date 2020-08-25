@@ -50,4 +50,4 @@ SELECT
         s.sitestatusdate::date AS sitestatusdate
         /*KEY , now()::timestamp with time zone AS comprehend_update_time KEY*/
 FROM site_data s 
-JOIN included_studies st ON (s.studyid = st.studyid)
+JOIN included_studies st ON (s.studyid = st.studyid);

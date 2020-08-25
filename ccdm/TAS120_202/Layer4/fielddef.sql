@@ -30,5 +30,4 @@ SELECT
         /*KEY , (fd.studyid || '~' || fd.formid || '~' || fd.fieldId)::text AS objectuniquekey KEY*/
         /*KEY , now()::timestamp with time zone AS comprehend_update_time KEY*/
 FROM fielddef_data fd
-JOIN included_studies st ON (fd.studyid = st.studyid)
-WHERE 1=2;
+JOIN included_studies st ON (fd.studyid = st.studyid);

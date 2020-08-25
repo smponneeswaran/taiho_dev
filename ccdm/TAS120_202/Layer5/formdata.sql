@@ -33,5 +33,4 @@ SELECT
         /*KEY , (fd.studyid || '~' || fd.siteid || '~' || fd.usubjid || '~' || fd.formSeq)::text  AS objectuniquekey KEY*/
         /*KEY , now()::timestamp with time zone AS comprehend_update_time KEY*/
 FROM formdata_data fd
-JOIN included_subjects s ON (fd.studyid = s.studyid AND fd.siteid = s.siteid AND fd.usubjid = s.usubjid)
-WHERE 1=2;
+JOIN included_subjects s ON (fd.studyid = s.studyid AND fd.siteid = s.siteid AND fd.usubjid = s.usubjid);
