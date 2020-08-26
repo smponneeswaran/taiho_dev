@@ -7,7 +7,7 @@ WITH included_studies AS (
                 SELECT studyid FROM study ),
 
      formdef_data AS (
-                  SELECT  'TAS120_201'::text AS studyid,
+                  SELECT  'TAS3681_101'::text AS studyid,
                         fm."OID"::text AS formid,
                         fm."Name"::text AS formname,
                         FALSE::boolean AS isprimaryendpoint,
@@ -17,8 +17,8 @@ WITH included_studies AS (
                               ELSE fe."SourceDocument" 
                         END::text AS issdv,
                         "Mandatory"::boolean AS isrequired
-			 from tas120_201."metadata_forms" fm
-			 inner join tas120_201."metadata_fields"fe
+			 from tas3681_101."metadata_forms" fm
+			 inner join tas3681_101."metadata_fields"fe
 			 on fm."OID"=SUBSTRING(fe."OID", 1, (POSITION('.' in fe."OID")-1))
 			 )
 

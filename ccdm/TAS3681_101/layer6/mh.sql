@@ -9,8 +9,8 @@ WITH included_subjects AS (
      mh_data AS (
                  -- TAS3681-101
 				SELECT  "project"::text AS studyid,
-                        right("SiteNumber",3)::text AS siteid,
-                        right("Subject",7)::text AS usubjid,
+                        "SiteNumber"::text AS siteid,
+                        "Subject"::text AS usubjid,
                         "RecordPosition"::int AS mhseq, /*(row_number() over (partition by [studyid],[siteid],[usubjid] order [mhstdtc,mhsttm]))::int AS mhseq,*/
                         "MHTERM"::text AS mhterm,
                         "MHTERM_PT"::text AS mhdecod,

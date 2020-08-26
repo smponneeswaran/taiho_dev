@@ -9,12 +9,12 @@ WITH included_subjects AS (
      ie_data AS (
 				-- TAS3681-101
                 SELECT  "project"::text AS studyid,
-                        right("SiteNumber",3)::text AS siteid,
-                        right("Subject",7)::text AS usubjid,
+                        "SiteNumber"::text AS siteid,
+                        "Subject"::text AS usubjid,
                         "FolderSeq"::numeric AS visitnum,
                         "FolderName"::text AS visit,
                         COALESCE("MinCreated", "RecordDate")::date AS iedtc,
-						row_number() OVER (PARTITION BY ie.studyid, ie.siteid, ie."Subject" ORDER BY ie."serial_id")::int AS ieseq,
+						 row_number() OVER (PARTITION BY ie.studyid, ie.siteid, ie."Subject" ORDER BY ie."serial_id")::int AS ieseq,
                         "IETESTCD"::text AS ietestcd,
                         "IETESTCD"::text AS ietest,
                         null::text AS iecat,

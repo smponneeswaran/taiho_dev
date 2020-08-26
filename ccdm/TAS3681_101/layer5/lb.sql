@@ -8,8 +8,8 @@ WITH included_subjects AS (
 
      lb_data AS (
                 SELECT  lb1."project"::text AS studyid,
-                        right(lb1."SiteNumber",3)::text AS siteid, 
-				 	    right(lb1."Subject",7)::text    AS usubjid,
+                        lb1."SiteNumber"::text AS siteid, 
+				 	    lb1."Subject"::text    AS usubjid,
                         lb1."FolderName"::text AS visit,
 						CASE
 							WHEN lb1."DataPageName" like '%Chemistry%' THEN chem."LBDAT"

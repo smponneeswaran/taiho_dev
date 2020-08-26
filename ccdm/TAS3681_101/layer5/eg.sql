@@ -17,14 +17,13 @@ WITH included_subjects AS (
                   eg.egstresu, 
                   eg.egstat, 
                   eg.egloc, 
-                  eg.egblfl, 
                   eg.visit, 
                   eg.egdtc, 
                   eg.egtm 
          FROM     (          -- TAS3681-101  ECG
                              SELECT     "project"::text   AS studyid, 
-                                        right("SiteNumber",3)::	text      AS siteid,
-										right("Subject",7)::	text      AS usubjid,
+                                        "SiteNumber"::	text      AS siteid,
+										"Subject"::	text      AS usubjid,
                                         NULL::int            AS egseq, 
                                         'ECG'::text     AS egtestcd, 
                                         'ECG'::text       AS egtest, 
@@ -54,8 +53,8 @@ WITH included_subjects AS (
 			UNION 
 			-- TAS3681-101  ECG2
                              SELECT     "project"::text   AS studyid, 
-                                        right("SiteNumber",3)::	text      AS siteid,
-										right("Subject",7)::	text      AS usubjid,
+                                        "SiteNumber"::	text      AS siteid,
+										"Subject"::	text      AS usubjid,
                                         NULL::int            AS egseq, 
                                         'ECG'::text     AS egtestcd, 
                                         'ECG'::text       AS egtest, 
@@ -71,7 +70,7 @@ WITH included_subjects AS (
                                         "FolderName"::text AS visit,
                                         "ECGDAT" ::timestamp without time zone AS egdtc,
 										"ECGTIM"::time without time zone AS egtm 
-                             FROM  tas3681_101."ECG" 
+                             FROM  tas3681_101."ECG2" 
                              cross join lateral(
 				values
 						('RR Interval'				, "ECGRR"	,"ECGRR_Units"	  ,"ECGRR"	,"ECGRR_Units"),
@@ -85,8 +84,8 @@ WITH included_subjects AS (
 				UNION 
 			-- TAS3681-101  ECG3
                              SELECT     "project"::text   AS studyid, 
-                                        right("SiteNumber",3)::	text      AS siteid,
-										right("Subject",7)::	text      AS usubjid,
+                                        "SiteNumber"::	text      AS siteid,
+										"Subject"::	text      AS usubjid,
                                         NULL::int            AS egseq, 
                                         'ECG'::text     AS egtestcd, 
                                         'ECG'::text       AS egtest, 
@@ -102,7 +101,7 @@ WITH included_subjects AS (
                                         "FolderName"::text AS visit,
                                         "ECGDAT" ::timestamp without time zone AS egdtc,
 										"ECGTIM"::time without time zone AS egtm 
-                             FROM  tas3681_101."ECG" 
+                             FROM  tas3681_101."ECG3" 
                              cross join lateral(
 				values
 						('RR Interval'				, "ECGRR"	,"ECGRR_Units"	  ,"ECGRR"	,"ECGRR_Units"),
@@ -130,7 +129,6 @@ SELECT
        eg.egstresu::text                                  AS egstresu, 
        eg.egstat::text                                    AS egstat, 
        eg.egloc::text                                     AS egloc, 
-       eg.egblfl::text                                    AS egblfl, 
        eg.visit::text                                     AS visit, 
        eg.egdtc::timestamp without time zone              AS egdtc, 
        eg.egtm::                   time without time zone AS egtm 

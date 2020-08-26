@@ -5,8 +5,8 @@ Notes: Standard mapping to CCDM Study table
 
 
 WITH study_data AS (
-                    SELECT  'TAS3681-101'::text AS studyid,
-                            'TAS3681-101'::text AS studyname,
+                    SELECT  'TAS3681_101'::text AS studyid,
+                            'TAS3681_101'::text AS studyname,
                             'A Phase 1, Open-Label, Non-Randomized, Safety, Tolerability, and
 Pharmacokinetic Study of TAS3681 in Patients with Metastatic Castration-Resistant Prostate Cancer'::text AS studydescription,
                             null::text AS studystatus,

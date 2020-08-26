@@ -7,15 +7,21 @@ WITH included_studies AS (
                 SELECT studyid FROM study ),
 
      formdef_data AS (
-                SELECT  'TAS120_202'::text AS studyid,
-                        "OID"::text AS formid,
-                        "Name"::text AS formname,
-                        null::boolean AS isprimaryendpoint,
-                        null::boolean AS issecondaryendpoint,
-                        null::boolean AS issdv,
-                        null::boolean AS isrequired  from "tas120_202"."metadata_forms" )
+                  SELECT  'TAS120_202'::text AS studyid,
+                        fm."OID"::text AS formid,
+                        fm."Name"::text AS formname,
+                        FALSE::boolean AS isprimaryendpoint,
+                        FALSE::boolean AS issecondaryendpoint,
+                        CASE WHEN fe."SourceDocument" IS NULL 
+                              THEN false 
+                              ELSE fe."SourceDocument" 
+                        END::text AS issdv,
+                        "Mandatory"::boolean AS isrequired
+			 from tas120_202."metadata_forms" fm
+			 inner join tas120_202."metadata_fields"fe
+			 on fm."OID"=SUBSTRING(fe."OID", 1, (POSITION('.' in fe."OID")-1))
+			 )
 
-                  
 SELECT 
         /*KEY fd.studyid::text AS comprehendid, KEY*/
         fd.studyid::text AS studyid,
@@ -28,4 +34,4 @@ SELECT
         /*KEY , (fd.studyid || '~' || fd.formid)::text AS objectuniquekey KEY*/
         /*KEY , now()::timestamp with time zone AS comprehend_update_time KEY*/
 FROM formdef_data fd
-JOIN included_studies st ON (fd.studyid = st.studyid);
+JOIN included_studies st ON (fd.studyid = st.studyid)

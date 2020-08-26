@@ -11,7 +11,7 @@ WITH included_subjects AS (
                 SELECT  "project"::text AS studyid,
                         "SiteNumber"::text AS siteid,
                         "Subject"::text AS usubjid,
-                        null::integer AS cmseq,
+                        "RecordPosition"::integer AS cmseq,
                         "CMTRT"::text AS cmtrt,
                         "CMINDC"::text AS cmmodify,
                         null::text AS cmdecod,

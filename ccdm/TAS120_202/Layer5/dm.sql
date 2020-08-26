@@ -16,7 +16,7 @@ WITH included_subjects AS (
                         null::text AS brthdtc,
                         "DMAGE"::integer AS age,
                         "DMSEX"::text AS sex,
-                        "DMRACE"::text AS race,
+                        coalesce("DMRACE", "DMOTH")::text AS race,
                         "DMETHNIC"::text AS ethnicity,
                         null::text AS armcd,
                         null::text AS arm 

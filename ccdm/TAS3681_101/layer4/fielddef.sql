@@ -7,7 +7,7 @@ WITH included_studies AS (
                 SELECT studyid FROM study ),
 
     fielddef_data AS (
-                SELECT  'TAS120_202'::text AS studyid,
+                SELECT  'TAS3681_101'::text AS studyid,
                         "FormDefOID"::text AS formid,
                         "VariableOID"::text AS fieldId,
                         coalesce("SASLabel", "Name")::text AS fieldname,
@@ -18,7 +18,7 @@ WITH included_studies AS (
                                 ELSE false 
 						END::boolean AS issdv,
                         "Mandatory"::boolean  AS isrequired 
-				from tas120_202."metadata_fields" 
+				from tas3681_101."metadata_fields" 
 						)
 
 SELECT         

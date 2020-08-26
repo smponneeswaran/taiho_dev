@@ -9,15 +9,15 @@ WITH included_subjects AS (
      dm_data AS (
 				-- TAS3681-101
                 SELECT  dm."project"::text AS studyid,
-                        right(dm."SiteNumber",3)::text AS siteid,
-                        right(dm."Subject",7)::text AS usubjid,
+                        dm."SiteNumber"::text AS siteid,
+                        dm."Subject"::text AS usubjid,
                         dm."FolderSeq"::numeric AS visitnum,
                         dm."FolderName"::text AS visit,
                         COALESCE("MinCreated", "RecordDate")::date AS dmdtc,
                         dm."DMBRTDAT"::text AS brthdtc,
                         dm."DMAGE"::integer AS age,
                         dm."DMSEX"::text AS sex,
-                        dm."DMRACE"::text AS race,
+                        coalesce(dm."DMRACE", dm."DMOTH")::text AS race,
                         dm."DMETHNIC"::text AS ethnicity,
                         null::text AS armcd,
                         null::text AS arm

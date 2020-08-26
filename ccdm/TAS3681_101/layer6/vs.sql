@@ -9,8 +9,8 @@ WITH included_subjects AS (
      vs_data AS (
                 -- TAS3681-101  VS
                 SELECT  vs."project"::text AS studyid,
-                    right(vs."SiteNumber",3)::text AS siteid, 
-				 	    right(vs."Subject",7)::text    AS usubjid,
+                    vs."SiteNumber"::text AS siteid, 
+				 	vs."Subject"::text    AS usubjid,
 						Null::int AS vsseq,
                     Null::text AS vstestcd,
                     vstest::text AS vstest,
@@ -44,8 +44,8 @@ WITH included_subjects AS (
 				
 				-- TAS3681-101  VSB
                 SELECT  vsb."project"::text AS studyid,
-                    right(vsb."SiteNumber",3)::text AS siteid, 
-				 	    right(vsb."Subject",7)::text    AS usubjid,
+                    vsb."SiteNumber"::text AS siteid, 
+				 	vsb."Subject"::text    AS usubjid,
 						Null::int AS vsseq,
                     Null::text AS vstestcd,
                     vstest::text AS vstest,
@@ -82,7 +82,7 @@ WITH included_subjects AS (
      all_data as (
                 SELECT
                     vs.studyid::text AS studyid,
-                    left(vs.siteid,3)::text AS siteid,
+                    vs.siteid::text AS siteid,
                     vs.usubjid::text AS usubjid,
                     (row_number() over (partition by vs.studyid, vs.siteid, vs.usubjid order by vs.vsdtc, vs.vstm))::int as vsseq,
                     vs.vstestcd::text AS vstestcd,
@@ -91,29 +91,10 @@ WITH included_subjects AS (
                     vs.vsscat::text AS vsscat,
                     vs.vspos::text AS vspos,
                     vs.vsorres::text AS vsorres,
-                    case when ltrim(vs.vsstresu::text) in ('1','2') then
-                         case when vstest = 'Height' then case when ltrim(vs.vsstresu::text) = '1' then 'CM' else 'IN' end
-                                  when vstest = 'Weight' then case when ltrim(vs.vsstresu::text) = '1' then 'KG' else 'LB' end
-                                  when vstest = 'Temperature' then case when ltrim(vs.vsstresu::text) = '1' then 'C' else 'F' end
-                                  else vs.vsstresu end
-                        else vs.vsstresu end::text AS vsorresu,
-					case when ltrim(vs.vsstresu) in ('1') then
-						 case when vstest = 'Height' then convert_height_to_inches(vs.vsstresn::numeric,'CM')
-							  when vstest = 'Weight' then convert_weight_kgs_to_lbs(vs.vsstresn::numeric,'KGS')
-							  when vstest = 'Temperature' then convert_temperature_c_to_f(vs.vsstresn::numeric,'C')
-							  else vs.vsstresn end
-					else vs.vsstresn end::numeric vsstresn,
-					case when ltrim(vs.vsstresu::text) in ('1','2') then
-						 case when vstest = 'Height' then 'IN'
-							  when vstest = 'Weight' then 'LB'
-							  when vstest = 'Temperature' then 'F'
-							  else vs.vsstresu end
-					else vs.vsstresu end::text AS vsstresu,
-			
-
-			 
-			 
-                    vs.vsstat::text AS vsstat,
+                    vs.vsorresu::text AS vsorresu,
+					vs.vsstresn::numeric AS vsstresn,
+					vs.vsstresu ::text AS vsstresu,
+					vs.vsstat::text AS vsstat,
                     vs.vsloc::text AS vsloc,
                     vs.vsblfl::text AS vsblfl,
                     vs.visit::text AS visit,

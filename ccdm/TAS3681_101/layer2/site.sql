@@ -7,8 +7,8 @@ WITH included_studies AS (
                 SELECT studyid FROM study ),
 
     site_data AS (
-                SELECT  'TAS3681-101'::text AS studyid,
-                        right("oid",3)::text AS siteid,
+                SELECT  'TAS3681_101'::text AS studyid,
+                        "oid"::text AS siteid,
                         "name"::text AS sitename,
                         'Syneos'::text AS croid,
                         'Syneos'::text AS sitecro,
