@@ -7,7 +7,7 @@ WITH included_studies AS (
                 SELECT studyid FROM study ),
 
     fielddef_data AS (
-                SELECT  'TAS120-202'::text AS studyid,
+                SELECT  'TAS120_202'::text AS studyid,
                         "FormDefOID"::text AS formid,
                         "VariableOID"::text AS fieldId,
                         coalesce("SASLabel", "Name")::text AS fieldname,

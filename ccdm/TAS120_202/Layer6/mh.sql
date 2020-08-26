@@ -10,7 +10,7 @@ WITH included_subjects AS (
                 SELECT  "project"::text AS studyid,
                         "SiteNumber"::text AS siteid,
                         "Subject"::text AS usubjid,
-                        (row_number() over (partition by "studyid","siteid","usubjid" order "mhstdtc","mhsttm"))::int AS mhseq, /*(row_number() over (partition by [studyid],[siteid],[usubjid] order [mhstdtc,mhsttm]))::int AS mhseq,*/
+                        (row_number() over (partition by "project","SiteNumber","Subject" order by "MHSTDAT","MHENDAT"))::int AS mhseq, /*(row_number() over (partition by [studyid],[siteid],[usubjid] order [mhstdtc,mhsttm]))::int AS mhseq,*/
                         "MHTERM"::text AS mhterm,
                         null::text AS mhdecod,
                         null::text AS mhcat,

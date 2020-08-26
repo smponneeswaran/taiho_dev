@@ -13,7 +13,7 @@ WITH included_subjects AS (
         "Subject"::text  AS usubjid,
         "FolderSeq"::numeric  AS visitnum,
         "FolderName"::text  AS visit,
-        coalesce(RecordDate, MinCreated)::date  AS iedtc,
+        coalesce("RecordDate", "MinCreated")::date  AS iedtc,
         null::text  AS iecat,
         null::text AS iescat,
         "IETESTCD"::text AS ietest,

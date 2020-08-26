@@ -7,13 +7,13 @@ WITH included_studies AS (
                 SELECT studyid FROM study ),
 
     site_data AS (
-                SELECT  'TAS120-202'::text AS studyid,
+                SELECT  'TAS120_202'::text AS studyid,
                         "oid"::text AS siteid,
                         "name"::text AS sitename,
                         'IQVIA'::text AS croid,
                         'IQVIA'::text AS sitecro,
-                        null::text AS sitecountry,
-                        null::text AS siteregion,
+                        'USA'::text AS sitecountry,
+                        'USA'::text AS siteregion,
                         "effectivedate"::date AS sitecreationdate,
                         "effectivedate"::date AS siteactivationdate,
                         null::date AS sitedeactivationdate,

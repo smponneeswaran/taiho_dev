@@ -17,8 +17,9 @@ WITH included_subjects AS (SELECT studyid, siteid, usubjid FROM subject),
             "name"::text AS querystatus, 
             "qryopendate"::date AS queryopeneddate, 
             nullif("qryresponsedate",'')::date AS queryresponsedate,
-           "qrycloseddate"::date AS querycloseddate,
-            1::int as formseq,
+           --"qrycloseddate"::date AS querycloseddate,
+       		to_date(nullif("qrycloseddate",''),'mm/dd/yyyy') ::date AS querycloseddate,
+       		1::int as formseq,
             "log" as log_num
         FROM "tas120_202"."stream_query_detail"
         

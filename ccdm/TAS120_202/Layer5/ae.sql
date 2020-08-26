@@ -11,9 +11,10 @@ WITH included_subjects AS (
                 SELECT "project"::text AS studyid,
                        "SiteNumber"::text AS siteid,
                        "Subject"::text AS usubjid,
-                       "AETERM_PT"::text AS aeterm,
+                       null::text AS aeterm,
+                      
                        "AETERM"::text AS aeverbatim,
-                       "AETERM_SOC"::text AS aebodsys,
+                      null::text AS aebodsys,
                        "AESTDAT"::timestamp without time zone AS aestdtc,
                        "AEENDAT"::timestamp without time zone AS aeendtc,
                        "AEGR"::text AS aesev,

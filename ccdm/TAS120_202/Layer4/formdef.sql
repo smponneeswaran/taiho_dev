@@ -7,14 +7,15 @@ WITH included_studies AS (
                 SELECT studyid FROM study ),
 
      formdef_data AS (
-                SELECT  'TAS120-202'::text AS studyid,
-                        "oid"::text AS formid,
+                SELECT  'TAS120_202'::text AS studyid,
+                        "OID"::text AS formid,
                         "Name"::text AS formname,
                         null::boolean AS isprimaryendpoint,
                         null::boolean AS issecondaryendpoint,
                         null::boolean AS issdv,
-                        null::boolean AS isrequired  from "tas120_202"."metadata_form" )
+                        null::boolean AS isrequired  from "tas120_202"."metadata_forms" )
 
+                  
 SELECT 
         /*KEY fd.studyid::text AS comprehendid, KEY*/
         fd.studyid::text AS studyid,

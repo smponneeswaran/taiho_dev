@@ -47,7 +47,7 @@ WITH included_subjects AS (
            NULL::text         AS egblfl, 
            "FolderName"::text AS visit, 
            "ECGDAT"::text      AS egdtc, 
-           "ECGTIM"::time without time zone AS egtm   
+           "ECGDAT"::time without time zone AS egtm   
 FROM       "tas120_202"."ECG" 
 CROSS JOIN lateral( VALUES 
            ('ECG','ECG', 'RR Interval',"ECGRR"::text , "ECGRR_Units" , "ECGRR_Units" , "ECGRR"::text ),
@@ -57,6 +57,7 @@ CROSS JOIN lateral( VALUES
        ) AS t 
        (egtestcd, egtest, egscat,egorres, egorresu, egstresu, egstresn ))eg
      )
+   
 
 SELECT
         /*KEY (eg.studyid::text || '~' || eg.siteid::text || '~' || eg.usubjid::text) AS comprehendid, KEY*/

@@ -10,7 +10,7 @@ WITH included_subjects AS (
                 SELECT  "project"::text AS studyid,
                         "SiteNumber"::text AS siteid,
                         "Subject"::text AS usubjid,
-                        (row_number() over (partition by "studyid","siteid","usubjid" order by  "exstdtc","exsttm"))::int AS exseq, /*(row_number() over (partition by [studyid],[siteid],[usubjid] order [exstdtc,exsttm]))::int AS exseq,*/
+                        (row_number() over (partition by "project","SiteNumber","Subject" order by  "EXOSTDAT","EXOENDAT"))::int AS exseq, /*(row_number() over (partition by [studyid],[siteid],[usubjid] order [exstdtc,exsttm]))::int AS exseq,*/
                         "FolderName"::text AS visit,
                         null::text AS extrt,
                         null::text AS excat,

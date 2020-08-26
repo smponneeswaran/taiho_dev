@@ -96,6 +96,7 @@ WITH included_subjects AS (
                         null::TIMESTAMP WITHOUT TIME ZONE AS dsdtc,
                         null::INTEGER AS dsstdy  
 				FROM "tas120_202"."ENR"
+				group by 1,2,3,4,5
 				
 				UNION ALL
 				
@@ -141,7 +142,7 @@ WITH included_subjects AS (
                         null::TEXT AS epoch,
                         null::TIMESTAMP WITHOUT TIME ZONE AS dsdtc,
                         null::INTEGER AS dsstdy  
-				FROM "tas120_202"."EOT"  where "EOSREAS" != 'End of study per 2 protocol'
+						from  "tas120_202"."EOT"  where "EOTREAS_STD" != 'End of study per 2 protocol'
 				
 				UNION ALL
 				

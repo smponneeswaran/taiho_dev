@@ -7,7 +7,7 @@ WITH included_studies AS (
                 SELECT studyid FROM study ),
 
     studycro_data AS (
-                SELECT  'TAS-120-202'::text AS studyid,
+                SELECT  'TAS120_202'::text AS studyid,
                         'IQVIA'::text AS croid,
                         'IQVIA'::text AS croname,
                         null::text AS crodescription )
