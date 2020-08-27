@@ -3,7 +3,7 @@ WITH included_subjects AS (
  eg_data AS 
 (        
          SELECT   eg.studyid, 
-                  LEFT(eg.siteid,3)  AS siteid,
+                  eg.siteid AS siteid,
 				  eg.usubjid  AS usubjid,
                   (Row_number() OVER (partition BY eg.studyid, eg.siteid, eg.usubjid ORDER BY eg.egseq, eg.egdtc))::int AS egseq,
                   upper(eg.egtestcd) as egtestcd, 

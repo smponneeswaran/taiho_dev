@@ -23,7 +23,7 @@ WITH included_subjects AS (
                         "qryresponsedate"::text AS queryresponsedate,
                         "qrycloseddate"::text AS querycloseddate,
                         "qryopenby"::text AS querycreator
-	FROM tas120_201."stream_query_detail" 
+	FROM tas3681_101."stream_query_detail" 
 					)
 
 SELECT 

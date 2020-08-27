@@ -62,5 +62,5 @@ SELECT
       ex.exdur::text AS exdur
       /*KEY , (ex.studyid || '~' || ex.siteid || '~' || ex.usubjid || '~' || ex.exseq)::text  AS objectuniquekey KEY*/
       /*KEY , now()::timestamp without time zone AS comprehend_update_time KEY*/
-FROM all_data ex
+FROM ex_data ex
 JOIN included_subjects s ON (ex.studyid = s.studyid AND ex.siteid = s.siteid AND ex.usubjid = s.usubjid);
