@@ -1,49 +1,51 @@
-/* Query mapping 
-Client: RGN 
-Notes:  
-*/ 
-WITH included_subjects AS (SELECT studyid, siteid, usubjid FROM subject),  
+/*
+CCDM Query mapping
+Notes: Standard mapping to CCDM Query table
+*/
 
-    edc_query AS ( 
-        SELECT "study" ::text   AS studyid, 
-            "sitename"::text AS siteid,
-            "subjectname"::text AS usubjid, 
-            "id_"::text AS queryid,
-            "form"::text    as visit,
-            "folder"::text AS formid, 
-            "field"::text AS fieldid, 
-            "querytext"::text AS querytext, 
-            "markinggroupname"::text AS querytype, 
-            "name"::text AS querystatus, 
-            "qryopendate"::date AS queryopeneddate, 
-            nullif("qryresponsedate",'')::date AS queryresponsedate,
-           --"qrycloseddate"::date AS querycloseddate,
-       		to_date(nullif("qrycloseddate",''),'mm/dd/yyyy') ::date AS querycloseddate,
-       		1::int as formseq,
-            "log" as log_num
-        FROM "tas120_202"."stream_query_detail"
-        
-        
-)
- 
+WITH included_subjects AS (
+                SELECT DISTINCT studyid, siteid, usubjid FROM subject ),
+
+     query_data AS (
+            SELECT left("study"::text, strpos("study", ' - ') - 1)::text AS studyId,
+                        left("sitename"::text, strpos("sitename", '_') - 1)::text AS siteId,
+                        "subjectname"::text AS usubjId,
+                        "id_"::text AS queryId,
+                        "folder"::text AS formId,
+						"form"::text AS visit,
+						1::int AS formseq,
+						"log"::int AS log_num,
+                        "field"::text AS fieldId,
+                        "querytext"::text AS querytext,
+                        "markinggroupname"::text AS querytype,
+                        "name"::text AS querystatus,
+                        "qryopendate"::text AS queryopeneddate,
+                        "qryresponsedate"::text AS queryresponsedate,
+                        "qrycloseddate"::text AS querycloseddate,
+                        "qryopenby"::text AS querycreator
+	FROM tas120_202."stream_query_detail" 
+					)
+
 SELECT 
-    /*KEY (e.studyid || '~' || e.siteid || '~' || e.usubjid) AS comprehendId, KEY*/ 
-    e.studyid :: text           AS studyid,
-    e.siteid :: text            AS siteid, 
-    e.usubjid :: text           AS usubjid, 
-    e.queryid :: text           AS queryid, 
-    e.visit :: text            AS visit, 
-    e.formid :: text            AS formid, 
-    e.fieldid :: text           AS fieldid, 
-    e.querytext :: text         AS querytext, 
-    e.querytype :: text         AS querytype, 
-    e.querystatus :: text       AS querystatus, 
-    e.queryopeneddate :: DATE   AS queryopeneddate, 
-    e.queryresponsedate :: DATE AS queryresponsedate, 
-    e.querycloseddate :: DATE   AS querycloseddate, 
-    e.formseq::int              AS formseq,
-    e.log_num::int              AS log_num 
-    /*KEY , (e.studyid || '~' || e.siteid ||'~' || e.usubjid||'~' ||e.queryid) AS objectuniquekey  KEY*/
-    /*KEY , now()::timestamp without time zone AS comprehend_update_time KEY*/ 
-FROM   edc_query e 
-JOIN included_subjects s ON (e.studyid = s.studyid AND e.siteid = s.siteid AND e.usubjid = s.usubjid);
+        /*KEY (q.studyid || '~' || q.siteid || '~' || q.usubjid)::text AS comprehendid, KEY*/
+        q.studyId::text AS studyId,
+        q.siteId::text AS siteId,
+        q.usubjId::text AS usubjId,
+        q.queryId::text AS queryId,
+        q.formId::text AS formId,
+        q.fieldId::text AS fieldId,
+        q.querytext::text AS querytext,
+        q.querytype::text AS querytype,
+        q.querystatus::text AS querystatus,
+        q.queryopeneddate::date AS queryopeneddate,
+        q.queryresponsedate::date AS queryresponsedate,
+        q.querycloseddate::date AS querycloseddate,
+        q.visit::text AS visit,
+        q.formseq::int AS formseq,
+        q.log_num::int AS log_num,
+        q.querycreator::text AS querycreator
+        /*KEY , (q.studyid || '~' || q.siteid || '~' || q.usubjid || '~' || q.queryid)::text  AS objectuniquekey KEY*/
+        /*KEY , now()::timestamp with time zone AS comprehend_update_time KEY*/
+FROM query_data q
+JOIN included_subjects s ON (q.studyid = s.studyid AND q.siteid = s.siteid AND q.usubjid = s.usubjid)
+;

@@ -7,12 +7,12 @@ WITH included_subjects AS (
                 SELECT DISTINCT studyid, siteid, usubjid FROM subject),
 
      pe_data AS (
-                SELECT  "project"::text AS studyid,
-                        "SiteNumber"::text AS siteid,
-                        "Subject"::text AS usubjid,
-                        null::int AS peseq,
-                        "PEPERF"::text AS petestcd,
-                        null::text AS petest,
+                SELECT  pe."project"::text AS studyid,
+                        pe."SiteNumber"::text AS siteid,
+                        pe."Subject"::text AS usubjid,
+                        row_number() OVER (PARTITION BY pe."studyid", pe."siteid", pe."Subject" ORDER BY pe."serial_id")::int AS peseq,
+                        null::text AS petestcd,
+                        vs."PEPERF"::text AS petest,
                         null::text AS pecat,
                         null::text AS pescat,
                         null::text AS pebodsys,
@@ -20,10 +20,13 @@ WITH included_subjects AS (
                         null::text AS peorresu,
                         null::text AS pestat,
                         null::text AS peloc,
-                        "FolderName"::text AS visit,
-                        "PEDAT"::timestamp without time zone AS pedtc,
+                        pe."FolderName"::text AS visit,
+                        pe."PEDAT"::timestamp without time zone AS pedtc,
                         null::time without time zone AS petm 
-from 			"tas120_202"."PE"			)
+from "tas120_202"."PE" pe
+left join "tas120_202"."VISIT" vs
+on pe."project"=vs."project" and pe."SiteNumber"=vs."SiteNumber" and pe."Subject"=vs."Subject"			
+)
 
 SELECT
         /*KEY (pe.studyid || '~' || pe.siteid || '~' || pe.usubjid)::text AS comprehendid, KEY*/

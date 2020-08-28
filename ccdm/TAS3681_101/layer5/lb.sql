@@ -18,7 +18,7 @@ WITH included_subjects AS (
 							WHEN lb1."DataPageName" like '%Urinalysis%' THEN urine."LBDAT"
 						END::timestamp without time zone AS lbdtc,
                         null::integer AS lbdy,
-                        null::integer AS lbseq,
+                        row_number() OVER (PARTITION BY lb1."studyid", lb1."siteid", lb1."Subject" ORDER BY lb1."serial_id")::integer AS lbseq,
                         lb1."AnalyteName"::text AS lbtestcd,
                         lb1."AnalyteName"::text AS lbtest,
                         lb1."DataPageName"::text AS lbcat,

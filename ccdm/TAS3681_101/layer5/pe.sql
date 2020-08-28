@@ -10,7 +10,7 @@ WITH included_subjects AS (
                 SELECT  "project"::text AS studyid,
                         "SiteNumber"::text AS siteid,
                         "Subject"::text AS usubjid,
-                        null::int AS peseq,
+                        row_number() OVER (PARTITION BY pe."studyid", pe."siteid", pe."Subject" ORDER BY pe."serial_id")::int AS peseq,
                         null::text AS petestcd,
                         "PEPERF"::text AS petest,
                         null::text AS pecat,
@@ -23,7 +23,7 @@ WITH included_subjects AS (
                         "FolderName"::text AS visit,
                         "PEDAT"::timestamp without time zone AS pedtc,
                         null::time without time zone AS petm 
-				FROM tas3681_101."PE"
+				FROM tas3681_101."PE" pe
 				)
 
 SELECT
@@ -47,5 +47,4 @@ SELECT
         /*KEY , (pe.studyid || '~' || pe.siteid || '~' || pe.usubjid || '~' || peseq)::text  AS objectuniquekey KEY*/
         /*KEY , now()::timestamp with time zone AS comprehend_update_time KEY*/
 FROM pe_data pe
-JOIN included_subjects s ON (pe.studyid = s.studyid AND pe.siteid = s.siteid AND pe.usubjid = s.usubjid)
-WHERE 1=2;
+JOIN included_subjects s ON (pe.studyid = s.studyid AND pe.siteid = s.siteid AND pe.usubjid = s.usubjid);

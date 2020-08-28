@@ -18,7 +18,7 @@ WITH included_studies AS (
                         END::text AS issdv,
                         "Mandatory"::boolean AS isrequired
 			 from tas120_201."metadata_forms" fm
-			 inner join tas120_201."metadata_fields"fe
+			 left join tas120_201."metadata_fields"fe
 			 on fm."OID"=SUBSTRING(fe."OID", 1, (POSITION('.' in fe."OID")-1))
 			 )
 
