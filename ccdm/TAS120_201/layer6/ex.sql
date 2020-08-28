@@ -1,33 +1,56 @@
-/*
-CCDM EX mapping
-Notes: Standard mapping to CCDM EX table
-*/
-
 WITH included_subjects AS (
                 SELECT DISTINCT studyid, siteid, usubjid FROM subject),
 
      ex_data AS (
-                SELECT  null::text AS studyid,
-                        null::text AS siteid,
-                        null::text AS usubjid,
-                        null::int AS exseq, /*(row_number() over (partition by [studyid],[siteid],[usubjid] order [exstdtc,exsttm]))::int AS exseq,*/
-                        null::text AS visit,
-                        null::text AS extrt,
-                        null::text AS excat,
-                        null::text AS exscat,
-                        null::numeric AS exdose,
-                        null::text AS exdostxt,
-                        null::text AS exdosu,
-                        null::text AS exdosfrm,
-                        null::text AS exdosfrq,
-                        null::numeric AS exdostot,
-                        null::date AS exstdtc,
-                        null::time AS exsttm,
-                        null::int AS exstdy,
-                        null::date AS exendtc,
-                        null::time AS exendtm,
-                        null::int AS exendy,
-                        null::text AS exdur )
+                SELECT 
+"SiteNumber"::text	AS	siteid,
+"Subject"::text	AS	usubjid,
+"RecordPosition"::INT   AS exseq,
+"project"::text	AS	studyid,
+"FolderName"::text	AS	visit,
+'TAS120-201'::text	AS	extrt,
+'Metastatic Breast Cancer'::text	AS	excat,
+NULL::text	AS	exscat,
+"EXOSDOSE"::numeric	AS	exdose,
+NULL::text	AS	exdostxt,
+"EXOSDOSE_Units"::text	AS	exdosu,
+NULL::text	AS	exdosfrm,
+NULL::text	AS	exdosfrq,
+NULL::text	AS	exdostot,
+"EXOSTDAT"::text	AS	exstdtc,
+NULL::time without time zone	AS	exsttm,
+NULL::text	AS	exstdy,
+"EXOENDAT"::date	AS	exendtc,
+NULL::time without time zone	AS	exendtm,
+NULL::text	AS	exendy,
+NULL::text	AS	exdur
+from tas120_201."EXO"
+
+UNION ALL
+
+SELECT 
+"SiteNumber"::text	AS	siteid,
+"Subject"::text	AS	usubjid,
+"RecordPosition"::INT  AS exseq,
+'TAS120-201'::text	AS	studyid,
+"FolderName"::text	AS	visit,
+'TAS120-201'::text	AS	extrt,
+'Metastatic Breast Cancer'::text	AS	excat,
+NULL::text	AS	exscat,
+"EXISDOSE"::numeric	AS	exdose,
+NULL::text	AS	exdostxt,
+"EXISDOSE_Units"::text	AS	exdosu,
+NULL::text	AS	exdosfrm,
+NULL::text	AS	exdosfrq,
+NULL::text	AS	exdostot,
+"EXISTDAT"::text	AS	exstdtc,
+NULL::time without time zone	AS	exsttm,
+NULL::text	AS	exstdy,
+null::date AS exendtc,
+NULL::time without time zone	AS	exendtm,
+NULL::text	AS	exendy,
+NULL::text	AS	exdur
+from tas120_201."EXI" )
 
 SELECT
         /*KEY (ex.studyid || '~' || ex.siteid || '~' || ex.usubjid)::text AS comprehendid, KEY*/
@@ -55,5 +78,4 @@ SELECT
         /*KEY , (ex.studyid || '~' || ex.siteid || '~' || ex.usubjid || '~' || ex.exseq)::text  AS objectuniquekey KEY*/
         /*KEY , now()::timestamp with time zone AS comprehend_update_time KEY*/
 FROM ex_data ex
-JOIN included_subjects s ON (ex.studyid = s.studyid AND ex.siteid = s.siteid AND ex.usubjid = s.usubjid)
-WHERE 1=2;
+JOIN included_subjects s ON (ex.studyid = s.studyid AND ex.siteid = s.siteid AND ex.usubjid = s.usubjid);

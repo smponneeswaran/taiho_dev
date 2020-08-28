@@ -1,6 +1,6 @@
 /*
 CDM get_fielddata function
-Client: Astex
+Client: Taiho
 */
 
 DROP FUNCTION IF EXISTS get_fielddata(text);
@@ -22,14 +22,12 @@ BEGIN
 		SELECT 
 			DISTINCT i.formid::TEXT AS table_name,
 			i.fieldid::TEXT AS column_name,
-			CASE 
-				WHEN i.studyid='ASTRAL-3' THEN 'asxsgi11_sgi110_07'
-				ELSE LOWER(REPLACE(REPLACE(SUBSTRING(i.studyid::TEXT, 1),'-','_'), ' ', '_')) 
-			END AS table_schema, 
+			LOWER(REPLACE(REPLACE(SUBSTRING(i.studyid::TEXT, 1),'-','_'), ' ', '_')) 
+			AS table_schema, 
 			i.studyid::TEXT AS studyid
 		FROM fielddef i 
 		JOIN information_schema.columns tb ON (
-			tb.table_schema = (CASE WHEN i.studyid='ASTRAL-3' THEN 'asxsgi11_sgi110_07' ELSE LOWER(REPLACE(REPLACE(SUBSTRING(i.studyid::TEXT, 1),'-','_'), ' ', '_')) END)
+			tb.table_schema = LOWER(REPLACE(REPLACE(SUBSTRING(i.studyid::TEXT, 1),'-','_'), ' ', '_'))
 			AND tb.table_name = i.formid AND tb.column_name = i.fieldid)
 		WHERE i.studyid = pStudyID
 	)

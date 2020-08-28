@@ -10,7 +10,7 @@ ds_data AS (
 
 ----Disposition Event: All Subjects----
 
-SELECT  dm."project"::TEXT AS studyid,
+SELECT  'TAS120-201'::TEXT AS studyid,
 dm."SiteNumber"::TEXT AS siteid,
 dm."Subject"::TEXT AS usubjid,
 1.0::NUMERIC AS dsseq, --deprecated
@@ -34,7 +34,7 @@ union all
 
 --Disposition Event: Consented
 
-SELECT  enr."project"::TEXT AS studyid,
+SELECT  'TAS120-201'::TEXT AS studyid,
 enr."SiteNumber"::TEXT AS siteid,
 enr."Subject"::TEXT AS usubjid,
 2.0::NUMERIC AS dsseq, --deprecated
@@ -58,7 +58,7 @@ union all
 
 --Disposition Event: Failed Screen
 
-SELECT  enr."project"::TEXT AS studyid,
+SELECT  'TAS120-201'::TEXT AS studyid,
 enr."SiteNumber"::TEXT AS siteid,
 enr."Subject"::TEXT AS usubjid,
 2.1::NUMERIC AS dsseq, --deprecated
@@ -82,7 +82,7 @@ union all
 
 --Disposition Event: Enrollment
 
-SELECT  enr."project"::TEXT AS studyid,
+SELECT  'TAS120-201'::TEXT AS studyid,
 enr."SiteNumber"::TEXT AS siteid,
 enr."Subject"::TEXT AS usubjid,
 3.0::NUMERIC AS dsseq, --deprecated
@@ -106,7 +106,7 @@ union all
 
 --Disposition Event: Withdrawn
 
-SELECT  ds."project"::TEXT AS studyid,
+SELECT  'TAS120-201'::TEXT AS studyid,
 ds."SiteNumber"::TEXT AS siteid,
 ds."Subject"::TEXT AS usubjid,
 4.1::NUMERIC AS dsseq, --deprecated
@@ -129,7 +129,7 @@ from tas120_201."DS" ds
 union all 
 --Disposition Event: Withdrawn_2
 
-SELECT  eos."project"::TEXT AS studyid,
+SELECT  'TAS120-201'::TEXT AS studyid,
 eos."SiteNumber"::TEXT AS siteid,
 eos."Subject"::TEXT AS usubjid,
 4.1::NUMERIC AS dsseq, --deprecated
@@ -153,7 +153,7 @@ union all
 
 --Disposition Event: Study Completion
 
-SELECT  eos."project"::TEXT AS studyid,
+SELECT  'TAS120-201'::TEXT AS studyid,
 eos."SiteNumber"::TEXT AS siteid,
 eos."Subject"::TEXT AS usubjid,
 5.0::NUMERIC AS dsseq, --deprecated
@@ -172,9 +172,6 @@ null::TEXT AS epoch,
 null::TIMESTAMP WITHOUT TIME ZONE AS dsdtc,
 null::INTEGER AS dsstdy
 from tas120_201."EOS" eos
-
-
-
 )
 
 SELECT
@@ -200,4 +197,4 @@ SELECT
         /*KEY , (ds.studyid || '~' || ds.siteid || '~' || ds.usubjid || '~' || ds.dsseq)::TEXT  AS objectuniquekey KEY*/
         /*KEY , now()::TIMESTAMP WITH TIME ZONE AS comprehend_update_time KEY*/
 FROM ds_data ds
-JOIN included_subjects s ON (ds.studyid = s.studyid AND ds.siteid = s.siteid AND ds.usubjid = s.usubjid);  
+JOIN included_subjects s ON (ds.studyid = s.studyid AND ds.siteid = s.siteid AND ds.usubjid = s.usubjid);

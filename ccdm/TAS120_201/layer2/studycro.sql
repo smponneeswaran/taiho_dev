@@ -7,9 +7,9 @@ WITH included_studies AS (
                 SELECT studyid FROM study ),
 
     studycro_data AS (
-                SELECT  null::text AS studyid,
-                        null::text AS croid,
-                        null::text AS croname,
+                SELECT  'TAS120-201'::text AS studyid,
+                        'UBC'::text AS croid,
+                        'UBC'::text AS croname,
                         null::text AS crodescription )
 
 SELECT /*KEY sc.studyid::text AS comprehendid, KEY*/
@@ -22,4 +22,5 @@ SELECT /*KEY sc.studyid::text AS comprehendid, KEY*/
         /*KEY , now()::timestamp with time zone AS comprehend_update_time KEY*/
 FROM studycro_data sc
 JOIN included_studies st ON (sc.studyid = st.studyid)
-WHERE 1=2;
+--WHERE 1=2;
+

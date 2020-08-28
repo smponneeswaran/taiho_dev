@@ -1,6 +1,6 @@
 /*
 CDM get_sdvdate function
-Client: Regeneron
+Client: Taiho
 */
 
 DROP FUNCTION IF EXISTS get_sdvdate(text);
@@ -92,4 +92,3 @@ BEGIN
 
 END
 $$ LANGUAGE plpgsql;
-

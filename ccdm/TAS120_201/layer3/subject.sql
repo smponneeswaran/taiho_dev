@@ -13,7 +13,8 @@ WITH included_sites AS (
                         null::text AS screenid,
                         null::text AS randid,
                         null::text AS status,
-                        null::date AS exitdate
+                        null::date AS exitdate,
+						null::text AS sitekey
 						from tas120_201."__subjects")
 
 SELECT 

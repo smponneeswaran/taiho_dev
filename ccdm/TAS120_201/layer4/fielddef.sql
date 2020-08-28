@@ -7,7 +7,7 @@ WITH included_studies AS (
                 SELECT studyid FROM study ),
 
     fielddef_data AS (
-                SELECT  'TAS120_201'::text AS studyid,
+                SELECT  'TAS120-201'::text AS studyid,
                         "FormDefOID"::text AS formid,
                         "VariableOID"::text AS fieldId,
                         coalesce("SASLabel", "Name")::text AS fieldname,
@@ -34,5 +34,5 @@ SELECT
         /*KEY , (fd.studyid || '~' || fd.formid || '~' || fd.fieldId)::text AS objectuniquekey KEY*/
         /*KEY , now()::timestamp with time zone AS comprehend_update_time KEY*/
 FROM fielddef_data fd
-JOIN included_studies st ON (fd.studyid = st.studyid)
-;
+JOIN included_studies st ON (fd.studyid = st.studyid);
+

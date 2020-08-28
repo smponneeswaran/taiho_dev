@@ -1,6 +1,6 @@
 /*
 CDM get_studymetadata function
-Client: Astex  
+Client: Taiho  
 */
 
 CREATE OR REPLACE FUNCTION get_studymetadata(pStudyID text)  
@@ -20,7 +20,7 @@ DECLARE
 
 BEGIN
 	t_study  := pStudyID;
-	t_schema := lower(replace(replace(case when pStudyID='ASTRAL-3' then 'asxsgi11_sgi110_07' else pStudyID end, '-', '_'), ' ', '_'));
+	t_schema := lower(replace(replace(pStudyID, '-', '_'), ' ', '_'));
 
 	IF NOT EXISTS(SELECT table_name
 		FROM information_schema.tables

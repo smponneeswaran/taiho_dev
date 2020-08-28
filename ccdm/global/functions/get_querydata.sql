@@ -1,6 +1,6 @@
 /*
 CDM get_querydata function
-Client: Astex
+Client: Taiho
 */
 
 CREATE OR REPLACE FUNCTION get_querydata(pStudyID text)  

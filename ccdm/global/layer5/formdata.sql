@@ -1,37 +1,48 @@
 /*
 CCDM FormData mapping
+Client: Taiho
 Notes: Standard mapping to CCDM FormData table
 */
 
-WITH included_subjects AS (
-                SELECT DISTINCT studyid, siteid, usubjid FROM subject ),
-
-     formdata_data AS (
-                SELECT  null::text AS studyid,
-                        null::text AS siteid,
-                        null::text AS usubjid,
-                        null::text AS formid,
-                        null::integer AS formseq,
-                        null::text AS visit,
-                        1::integer AS visitseq, /* defaulted to 1 - deprecated */
-                        null::date AS dataentrydate,
-                        null::date AS datacollecteddate,
-                        null::date AS sdvdate )
-
-SELECT 
-        /*KEY (fd.studyid || '~' || fd.siteid || '~' || fd.usubjid)::text AS comprehendid, KEY*/
-        fd.studyid::text AS studyid,
-        fd.siteid::text AS siteid,
-        fd.usubjid::text AS usubjid,
-        fd.formid::text AS formid,
-        fd.formseq::integer AS formseq,
-        fd.visit::text AS visit,
-        fd.visitseq::integer AS visitseq,
-        fd.dataentrydate::date AS dataentrydate,
-        fd.datacollecteddate::date AS datacollecteddate,
-        fd.sdvdate::date AS sdvdate
-        /*KEY , (fd.studyid || '~' || fd.siteid || '~' || fd.usubjid || '~' || fd.formSeq)::text  AS objectuniquekey KEY*/
-        /*KEY , now()::timestamp with time zone AS comprehend_update_time KEY*/
-FROM formdata_data fd
-JOIN included_subjects s ON (fd.studyid = s.studyid AND fd.siteid = s.siteid AND fd.usubjid = s.usubjid)
-WHERE 1=2;
+WITH form_data AS (
+  SELECT
+    fd.studyid AS studyid,
+    s.siteid AS siteid,
+    right(fd.usubjid,7) AS usubjid,
+    fd.formid AS formid,
+    fd.formseq AS formseq,
+    fd.visit AS visit,
+    fd.visitseq AS visitseq,
+    MIN(fd.dataentrydate) AS dataentrydate,
+    MIN(fd.datacollecteddate) AS datacollecteddate,
+    MIN(fd.sdvdate) AS sdvdate
+  FROM
+    fielddata fd
+    JOIN subject s ON (fd.studyid = s.studyid AND RIGHT(fd.usubjid,7) = s.usubjid AND RIGHT(fd.siteid, 6) = RIGHT(s.siteid, 6))
+    JOIN fielddef fdef ON (fd.studyid = fdef.studyid AND fd.formid = fdef.formid)
+  GROUP BY
+  fd.studyid,
+  s.siteid,
+  fd.usubjid,
+  fd.formid,
+  fd.visit,
+  fd.visitseq,
+  fd.formseq
+)
+  
+SELECT
+  /*KEY (studyid || '~' || siteid || '~' || usubjid)::TEXT AS comprehendid, KEY*/
+  studyid::TEXT AS studyid,
+  siteid::TEXT AS siteid,
+  usubjid::TEXT AS usubjid,
+  formid::TEXT AS formid,
+  formseq::INTEGER AS formseq,
+  visit::TEXT AS visit,
+  visitseq::INTEGER AS visitseq,
+  dataentrydate::DATE AS dataentrydate,
+  datacollecteddate::DATE AS datacollecteddate,
+  sdvdate::DATE AS sdvdate 
+  /*KEY , (studyid || '~' || siteid || '~' || usubjid || '~' || visit || '~' || visitseq || '~' || formid || '~' || formseq )::TEXT AS objectuniquekey KEY*/
+  /*KEY , NOW()::TIMESTAMP WITHOUT TIME ZONE AS comprehend_update_time KEY*/
+FROM
+  form_data;

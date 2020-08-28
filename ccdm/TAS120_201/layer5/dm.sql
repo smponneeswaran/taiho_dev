@@ -7,19 +7,21 @@ WITH included_subjects AS (
                 SELECT DISTINCT studyid, siteid, usubjid FROM subject ),
 
      dm_data AS (
-                SELECT  null::text AS studyid,
-                        null::text AS siteid,
-                        null::text AS usubjid,
-                        null::numeric AS visitnum,
-                        null::text AS visit,
-                        null::date AS dmdtc,
-                        null::date AS brthdtc,
-                        null::integer AS age,
-                        null::text AS sex,
-                        null::text AS race,
-                        null::text AS ethnicity,
-                        null::text AS armcd,
-                        null::text AS arm )
+                SELECT
+				"project"	::text	AS	studyid	,
+				"SiteNumber"	::text	AS	siteid	,
+				"Subject"	::text	AS	usubjid	,
+				"FolderSeq"::text	AS	visitnum	,
+				"FolderName"::text	AS	visit	,
+				COALESCE("MinCreated", "RecordDate")::text	AS	dmdtc	,
+				'NA'::text	AS	brthdtc	,
+				"DMAGE"::text	AS	age	,
+				"DMSEX"::text	AS	sex	,
+				COALESCE("DMRACE", "DMOTH")::text	AS	race	,
+				"DMETHNIC"::text	AS	ethnicity	,
+				'NA'::text	AS armcd,
+				'NA'::text	AS	arm
+				FROM tas120_201."DM" )
 
 SELECT 
         /*KEY (dm.studyid || '~' || dm.siteid || '~' || dm.usubjid)::text AS comprehendid, KEY*/
@@ -39,5 +41,4 @@ SELECT
         /*KEY ,(dm.studyid || '~' || dm.siteid || '~' || dm.usubjid )::text  AS objectuniquekey KEY*/
         /*KEY , now()::timestamp with time zone AS comprehend_update_time KEY*/
 FROM dm_data dm
-JOIN included_subjects s ON (dm.studyid = s.studyid AND dm.siteid = s.siteid AND dm.usubjid = s.usubjid)
-WHERE 1=2;
+JOIN included_subjects s ON (dm.studyid = s.studyid AND dm.siteid = s.siteid AND dm.usubjid = s.usubjid);

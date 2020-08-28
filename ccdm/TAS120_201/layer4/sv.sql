@@ -7,14 +7,15 @@ WITH included_subjects AS (
                 SELECT DISTINCT studyid, siteid, usubjid FROM subject ),
 
      sv_data AS (
-                SELECT  null::text AS studyid,
-                        null::text AS siteid,
-                        null::text AS usubjid, 
-                        null::numeric AS visitnum,
-                        null::text AS visit,
+                SELECT  'TAS120-201'::text AS studyid,
+                        "SiteNumber"::text AS siteid,
+                        "Subject"::text AS usubjid, 
+                        "FolderSeq"::numeric AS visitnum,
+                        "FolderName"::text AS visit,
                         1::int AS visitseq, /* defaulted to 1 - deprecated */
-                        null::date AS svstdtc,
-                        null::date AS svendtc )
+                        "VISITDAT"::date AS svstdtc,
+                        "VISITDAT"::date AS svendtc
+                        FROM tas120_201."VISIT" )
 
 SELECT 
         /*KEY (sv.studyid || '~' || sv.siteid || '~' || sv.usubjid)::text AS comprehendid, KEY*/
@@ -29,5 +30,5 @@ SELECT
         /*KEY , (sv.studyid || '~' || sv.siteid || '~' || sv.usubjid || '~' || sv.visitnum)::text  AS objectuniquekey KEY*/
         /*KEY , now()::timestamp with time zone AS comprehend_update_time KEY*/
 FROM sv_data sv
-JOIN included_subjects s ON (sv.studyid = s.studyid AND sv.siteid = s.siteid AND sv.usubjid = s.usubjid)
-WHERE 1=2; 
+JOIN included_subjects s ON (sv.studyid = s.studyid AND sv.siteid = s.siteid AND sv.usubjid = s.usubjid);
+
