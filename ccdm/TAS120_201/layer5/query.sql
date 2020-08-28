@@ -46,5 +46,5 @@ SELECT
         /*KEY , (q.studyid || '~' || q.siteid || '~' || q.usubjid || '~' || q.queryid)::text  AS objectuniquekey KEY*/
         /*KEY , now()::timestamp with time zone AS comprehend_update_time KEY*/
 FROM query_data q
-JOIN included_subjects s ON (q.studyid = s.studyid AND q.siteid = s.siteid AND q.usubjid = s.usubjid)
-WHERE 1=2;
+JOIN included_subjects s ON (q.studyid = s.studyid AND q.siteid = s.siteid AND q.usubjid = s.usubjid);
+
