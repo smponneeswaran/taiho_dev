@@ -6,9 +6,9 @@ Notes: Standard mapping to CCDM Query table
 WITH included_subjects AS (
                 SELECT DISTINCT studyid, siteid, usubjid FROM subject ),
 
-     query_data AS (
-                SELECT  "study"::text AS studyId,
-                        "sitename"::text AS siteId,
+query_data AS (
+                SELECT  'TAS120-201'::text AS studyId,
+                        'TAS120_201'||'_'||left("sitename"::text, strpos("sitename", '_') - 1)::text AS siteId,
                         "subjectname"::text AS usubjId,
                         "id_"::text AS queryId,
                         "folder"::text AS formId,
@@ -47,4 +47,5 @@ SELECT
         /*KEY , now()::timestamp with time zone AS comprehend_update_time KEY*/
 FROM query_data q
 JOIN included_subjects s ON (q.studyid = s.studyid AND q.siteid = s.siteid AND q.usubjid = s.usubjid);
+
 
