@@ -1,6 +1,6 @@
 /*
 CCDM FormData mapping
-Client: Taiho
+Client: Regeneron
 Notes: Standard mapping to CCDM FormData table
 */
 
@@ -20,7 +20,7 @@ WITH form_data AS (
     fielddata fd
     JOIN subject s ON (fd.studyid = s.studyid AND fd.usubjid = s.usubjid AND fd.siteid = s.siteid)
     JOIN fielddef fdef ON (fd.studyid = fdef.studyid AND fd.formid = fdef.formid)
-  GROUP BY
+GROUP BY
   fd.studyid,
   s.siteid,
   fd.usubjid,
@@ -46,4 +46,3 @@ SELECT
   /*KEY , NOW()::TIMESTAMP WITHOUT TIME ZONE AS comprehend_update_time KEY*/
 FROM
   form_data;
-

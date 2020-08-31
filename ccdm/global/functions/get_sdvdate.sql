@@ -1,6 +1,6 @@
 /*
 CDM get_sdvdate function
-Client: Taiho
+Client: Regeneron
 */
 
 DROP FUNCTION IF EXISTS get_sdvdate(text);
@@ -69,9 +69,9 @@ BEGIN
         t_ddl := 'CREATE TABLE sdvdatetmp AS ' || lSQL;
         EXECUTE t_ddl;
 
-        t_ddl := 'CREATE INDEX ON sdvdatetmp(subj,instanceid,datapageid,recordid)';
+        t_ddl := 'CREATE INDEX ON sdvdatetmp(subj,instanceid,datapageid,recordid)'; 
         EXECUTE t_ddl;
-
+        
         t_ddl := 'ANALYZE sdvdatetmp';
         EXECUTE t_ddl;
           
@@ -92,3 +92,4 @@ BEGIN
 
 END
 $$ LANGUAGE plpgsql;
+

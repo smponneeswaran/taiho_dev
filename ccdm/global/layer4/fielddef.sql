@@ -4,17 +4,7 @@ Notes: Standard mapping to CCDM FieldDef table
 */
 
 WITH included_studies AS (
-                SELECT studyid FROM study ),
-
-    fielddef_data AS (
-                SELECT  null::text AS studyid,
-                        null::text AS formid,
-                        null::text AS fieldId,
-                        null::text AS fieldname,
-                        null::boolean AS isprimaryendpoint,
-                        null::boolean AS issecondaryendpoint,
-                        null::boolean AS issdv,
-                        null::boolean  AS isrequired )
+                SELECT studyid FROM study )
 
 SELECT         
         /*KEY fd.studyid::text AS comprehendid, KEY*/
@@ -27,7 +17,6 @@ SELECT
         fd.issdv::boolean AS issdv,
         fd.isrequired::boolean  AS isrequired 
         /*KEY , (fd.studyid || '~' || fd.formid || '~' || fd.fieldId)::text AS objectuniquekey KEY*/
-        /*KEY , now()::timestamp with time zone AS comprehend_update_time KEY*/
-FROM fielddef_data fd
-JOIN included_studies st ON (fd.studyid = st.studyid)
-WHERE 1=2;
+        /*KEY , now()::timestamp without time zone AS comprehend_update_time KEY*/
+FROM stg_fielddef fd    --fielddef_data fd
+JOIN included_studies st ON (fd.studyid = st.studyid);

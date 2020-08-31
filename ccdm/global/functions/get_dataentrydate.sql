@@ -1,6 +1,6 @@
 /*
 CDM get_dataentrydate function
-Client: Taiho
+Client: Regeneron
 */
 
 DROP FUNCTION IF EXISTS get_dataentrydate(text);
@@ -17,7 +17,7 @@ DECLARE
     
 BEGIN
 
-        tbl_schema := LOWER(REPLACE(REPLACE(CASE WHEN pStudyID='ASTRAL-3' THEN 'asxsgi11_sgi110_07' ELSE pStudyID END, '-', '_'), ' ', '_'));
+        tbl_schema := REPLACE(REPLACE(LOWER(pStudyID), '-', '_'), ' ', '_');
         
         IF (SELECT EXISTS (SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.schemata WHERE schema_name = tbl_schema)) THEN
                 lSQL := format(
@@ -49,9 +49,9 @@ BEGIN
         t_ddl := 'CREATE TABLE dataentrydatetmp AS ' || lSQL;
         EXECUTE t_ddl;
 
-        t_ddl := 'CREATE INDEX ON dataentrydatetmp(subj,instanceid,datapageid,recordid)';
+        t_ddl := 'CREATE INDEX ON dataentrydatetmp(subj,instanceid,datapageid,recordid)';   
         EXECUTE t_ddl;
-
+        
         t_ddl := 'ANALYZE dataentrydatetmp';
         EXECUTE t_ddl;
 
@@ -74,3 +74,4 @@ BEGIN
 
 END
 $$ LANGUAGE plpgsql;
+
