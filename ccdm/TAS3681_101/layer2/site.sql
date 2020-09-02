@@ -15,7 +15,7 @@ WITH included_studies AS (
 						null::text AS siteinvestigatorname,
 						null::text AS sitecraname,
                         'USA'::text AS sitecountry,
-                        'USA'::text AS siteregion,
+                        'North America"'::text AS siteregion,
                         "effectivedate"::date AS sitecreationdate,
                         "effectivedate"::date AS siteactivationdate,
                         null::date AS sitedeactivationdate,
