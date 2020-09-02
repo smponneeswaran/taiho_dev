@@ -1,0 +1,6 @@
+[
+  "build_cdm_driver.py::Test_Build_Driver::()::test__1_run_build", 
+  "build_cdm_driver.py::Test_Build_Driver::()::test__13_drop_schema", 
+  "build_cdm_driver.py::Test_Build_Driver::()::test__14_deploy_schema", 
+  "build_cdm_driver.py::Test_Build_Driver::()::test__15_build_final_steps"
+]
