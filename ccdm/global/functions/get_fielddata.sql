@@ -16,32 +16,40 @@ DECLARE
     t_ddl TEXT;
 
 BEGIN
-    FOR rec IN
-            (WITH 
-              fd AS 
-                ( SELECT 
-                    DISTINCT i.formid::TEXT AS table_name,
-                    i.fieldid::TEXT AS column_name,
-                    LOWER(REPLACE(REPLACE(SUBSTRING(i.studyid::TEXT, 1),'-','_'), ' ', '_')) AS table_schema, 
-                    i.studyid::TEXT AS studyid
-                  FROM fielddef i
-                  WHERE i.studyid = pStudyID),
-              inf_schema AS
-                 ( SELECT
-                     table_schema,
-                     table_name,
-                     column_name                   
-                 FROM information_schema.columns
-                 WHERE table_schema = LOWER(REPLACE(REPLACE(SUBSTRING(pStudyID,1),'-','_'), ' ', '_')))
-                 SELECT
-                     fd.table_name,
-                     fd.column_name,              
-                     fd.table_schema,
-                     fd.studyid
-                 FROM fd
-                 JOIN inf_schema tb ON (tb.table_schema = fd.table_schema
-                                                    AND tb.table_name = fd.table_name
-                                                    AND tb.column_name = fd.column_name))
+FOR rec IN
+(	
+	
+	WITH fd AS 
+      ( 
+			   SELECT DISTINCT i.formid::TEXT AS table_name,
+               i.fieldid::TEXT AS column_name,
+               LOWER(REPLACE(REPLACE(SUBSTRING(i.studyid::TEXT, 1),'-','_'), ' ', '_')) AS table_schema, 
+               i.studyid::TEXT AS studyid
+               FROM fielddef i
+               WHERE i.studyid = upper(pStudyID)
+		),
+        
+	inf_schema AS
+        ( 		
+				SELECT
+                table_schema,
+                table_name,
+                column_name                   
+                FROM information_schema.columns
+                WHERE table_schema = LOWER(REPLACE(REPLACE(SUBSTRING(pStudyID,1),'-','_'), ' ', '_'))
+		)
+                 
+	SELECT
+    fd.table_name,
+    fd.column_name,              
+    lower(fd.table_schema) as table_schema ,
+    fd.studyid
+    FROM fd
+    JOIN inf_schema tb 
+	ON (tb.table_schema = fd.table_schema 
+		AND tb.table_name = fd.table_name
+        AND tb.column_name = fd.column_name)
+)
     LOOP
 
         IF b_add_union_next THEN

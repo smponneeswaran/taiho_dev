@@ -7,7 +7,7 @@ WITH included_subjects AS (
                 SELECT DISTINCT studyid, siteid, usubjid FROM subject ),
 
      dm_data AS (
-				-- TAS3681-101
+				
                 SELECT  dm."project"::text AS studyid,
                         dm."SiteNumber"::text AS siteid,
                         dm."Subject"::text AS usubjid,

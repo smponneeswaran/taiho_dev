@@ -22,7 +22,7 @@ BEGIN
 
          --SQL to fetch query data for given study
 	qsql := 'SELECT left("study"::text, strpos("study", '' - '') - 1)::text AS studyid, 
-            'TAS3681101_'||left("subjectname"::text, strpos("subjectname", '' - '') - 1)::text AS siteid,
+            upper(replace(t_schema,'' _'',''''))||left("subjectname"::text, strpos("subjectname", '' - '') - 1)::text AS siteid,
             "subjectname"::text AS usubjid, 
             "id_"::text AS queryid,
             "folder"::text    as visit,
