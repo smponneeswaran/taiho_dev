@@ -24,6 +24,5 @@ SELECT
   cm.invalidvalue::BOOLEAN AS invalidvalue
   /*KEY , NOW()::TIMESTAMP WITH TIME ZONE AS comprehend_update_time KEY*/
 FROM custommetric cm
-JOIN included_studies istu ON (istu.studyid = cm.studyid)
-WHERE 1=2;
+JOIN included_studies istu ON (istu.studyid = cm.studyid);
 

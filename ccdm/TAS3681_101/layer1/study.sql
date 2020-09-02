@@ -9,9 +9,9 @@ WITH study_data AS (
                             'TAS3681_101'::text AS studyname,
                             'A Phase 1, Open-Label, Non-Randomized, Safety, Tolerability, and
 Pharmacokinetic Study of TAS3681 in Patients with Metastatic Castration-Resistant Prostate Cancer'::text AS studydescription,
-                            null::text AS studystatus,
+                            'Active'::text AS studystatus,
                             'Phase 1'::text AS studyphASe,
-                            null::text AS studysponsor,
+                            'Taiho'::text AS studysponsor,
                             'Oncology'::text AS therapeuticarea,
                             null::text AS program,
                             null::text AS medicalindication,

@@ -47,7 +47,21 @@ dm."Subject"::text AS usubjid,
 COALESCE(dm."MinCreated" ,dm."RecordDate")::DATE AS dsstdtc,
 null::text AS dsscat
 from tas3681_101."DM" as dm
-left join tas3681_101."IE" ie on dm."project" = ie."project" AND dm."SiteNumber"= ie."SiteNumber" AND dm."Subject" = ie."Subject"
+left join 
+(
+	select * from tas3681_101."IE"
+	where ("project","SiteNumber", "Subject", "serial_id")
+	in (
+	
+	select "project","SiteNumber", "Subject", max(serial_id)  as serial_id
+	from tas3681_101."IE"
+	group by 1,2,3
+	)
+
+) ie
+
+
+on dm."project" = ie."project" AND dm."SiteNumber"= ie."SiteNumber" AND dm."Subject" = ie."Subject"
 where ie."IEYN" = 'No'
   
 union all 
@@ -60,11 +74,12 @@ dm."Subject"::text AS usubjid,
 3.0::NUMERIC AS dsseq,
 'Enrollement'::text AS dscat,
 'Enrolled'::text AS dsterm,
-ex."EXOSTDAT"::DATE AS dsstdtc,
+min(ex."EXOSTDAT")::DATE AS dsstdtc,
 null::text AS dsscat  
 from tas3681_101."DM" dm
 left join tas3681_101."EXO" ex
 on dm."project"=ex."project" and dm."SiteNumber"=ex."SiteNumber" and dm."Subject"=ex."Subject"
+group by  dm."project", dm."SiteNumber", dm."Subject"
 
 union all 
 
@@ -80,7 +95,19 @@ dm."Subject"::text AS usubjid,
 ds."DSDAT"::DATE AS dsstdtc,
 null::text AS dsscat  
 from tas3681_101."DM" dm
-left join tas3681_101."DS" ds
+left join 
+
+(
+	select * from tas3681_101."DS"
+	where ("project","SiteNumber", "Subject", "serial_id")
+	in (
+	
+	select "project","SiteNumber", "Subject", max(serial_id)  as serial_id
+	from tas3681_101."DS"
+	group by 1,2,3
+	)
+
+) ds
 on dm."project"=ds."project" and dm."SiteNumber"=ds."SiteNumber" and dm."Subject"=ds."Subject"
 where ds."DSREAS" <> 'End of study per 2 protocol'
 
@@ -111,7 +138,7 @@ SELECT
         ds.studyid::text AS studyid,
         ds.siteid::text AS siteid,
         ds.usubjid::text AS usubjid,
-        ds.dsseq::NUMERIC AS dsseq, --deprecated
+        ds.dsseq::NUMERIC AS dsseq,
         ds.dscat::text AS dscat,
         ds.dsscat::text AS dsscat,
         ds.dsterm::text AS dsterm,
