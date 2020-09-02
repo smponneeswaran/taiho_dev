@@ -5,7 +5,7 @@ WITH included_subjects AS (
          SELECT   eg.studyid, 
                   eg.siteid AS siteid,
 				  eg.usubjid  AS usubjid,
-                  (Row_number() OVER (partition BY eg.studyid, eg.siteid, eg.usubjid ORDER BY eg.egseq, eg.egdtc))::int AS egseq,
+                  (Row_number() OVER (partition BY eg.studyid, eg.siteid, eg.usubjid ORDER BY eg.egdtc))::int AS egseq,
                   upper(eg.egtestcd) as egtestcd, 
                   eg.egtest, 
                   eg.egcat, 
@@ -17,6 +17,7 @@ WITH included_subjects AS (
                   eg.egstresu, 
                   eg.egstat, 
                   eg.egloc, 
+				  eg.egblfl,
                   eg.visit, 
                   eg.egdtc, 
                   eg.egtm 
@@ -36,6 +37,7 @@ WITH included_subjects AS (
 										egstresu::text AS egstresu, 
                                         NULL::text  AS egstat, 
                                         NULL::text  AS egloc, 
+										NULL::text AS egblfl,
                                         "FolderName"::text AS visit,
                                         "ECGDAT" ::timestamp without time zone AS egdtc,
 										"ECGTIM"::time without time zone AS egtm 
@@ -66,7 +68,8 @@ WITH included_subjects AS (
 										egstresn::text AS egstresn,
 										egstresu::text AS egstresu, 
                                         NULL::text  AS egstat, 
-                                        NULL::text  AS egloc, 
+                                        NULL::text  AS egloc,
+										NULL::text AS egblfl,
                                         "FolderName"::text AS visit,
                                         "ECGDAT" ::timestamp without time zone AS egdtc,
 										"ECGTIM"::time without time zone AS egtm 
@@ -97,7 +100,8 @@ WITH included_subjects AS (
 										egstresn::text AS egstresn,
 										egstresu::text AS egstresu, 
                                         NULL::text  AS egstat, 
-                                        NULL::text  AS egloc, 
+                                        NULL::text  AS egloc,
+										NULL::text AS egblfl,
                                         "FolderName"::text AS visit,
                                         "ECGDAT" ::timestamp without time zone AS egdtc,
 										"ECGTIM"::time without time zone AS egtm 
@@ -129,6 +133,7 @@ SELECT
        eg.egstresu::text                                  AS egstresu, 
        eg.egstat::text                                    AS egstat, 
        eg.egloc::text                                     AS egloc, 
+	   eg.egblfl::text									  AS egblfl,
        eg.visit::text                                     AS visit, 
        eg.egdtc::timestamp without time zone              AS egdtc, 
        eg.egtm::                   time without time zone AS egtm 
